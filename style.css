@@ -603,3 +603,10 @@ footer {
   }
 
 }
+/* =========================================
+   CORREÇÃO: modal começa escondido
+========================================= */
+
+.modal[hidden] {
+  display: none !important;
+}
