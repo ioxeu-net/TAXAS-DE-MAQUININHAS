@@ -3,101 +3,685 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Calculadora de Taxas de Maquininha</title>
+  <meta name="theme-color" content="#0b3b5c">
+
+  <title>Taxas de Maquininhas</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <h1>Calculadora de Maquininha</h1>
-      <p>Descubra quanto cobrar e não perca dinheiro nas taxas do cartão.</p>
-    </header>
 
-    <main>
-      <!-- Modo de Cálculo -->
-      <section class="card">
-        <label>O que você deseja?</label>
-        <div class="toggle-group">
-          <button id="btnModoReceber" class="active" onclick="setModo('receber')">Quero receber R$ X no bolso</button>
-          <button id="btnModoCobrar" onclick="setModo('cobrar')">Vou cobrar R$ X do cliente</button>
+<div class="container">
+
+  <!-- CABEÇALHO -->
+  <header class="topo">
+
+    <div class="marca">
+      <div class="icone">%</div>
+
+      <div>
+        <h1>Taxas de Maquininhas</h1>
+        <p>Faça a conta antes de passar o cartão.</p>
+      </div>
+    </div>
+
+    <button
+      class="help"
+      type="button"
+      onclick="mostrarAjuda(
+        'Este sistema ajuda você a entender taxas da maquininha, parcelamento e juros. Ele não acessa sua maquininha, não acessa sua conta bancária e não movimenta dinheiro.'
+      )"
+    >?</button>
+
+  </header>
+
+
+  <main>
+
+    <!-- =====================================================
+         MÓDULO 1 - TAXA DA MAQUININHA
+    ====================================================== -->
+
+    <section class="card">
+
+      <div class="titulo-linha">
+
+        <h2>1. Taxa da maquininha</h2>
+
+        <button
+          class="help"
+          type="button"
+          onclick="mostrarAjuda(
+            'Aqui você descobre quanto sobra para você depois que a empresa da maquininha desconta a taxa da venda.'
+          )"
+        >?</button>
+
+      </div>
+
+      <p class="explicacao">
+        Primeiro vamos cuidar da parte do <strong>vendedor</strong>.
+      </p>
+
+      <div class="toggle-group">
+
+        <button
+          id="btnModoReceber"
+          class="active"
+          type="button"
+          onclick="setModo('receber')"
+        >
+          Quero receber um valor certo
+        </button>
+
+        <button
+          id="btnModoCobrar"
+          type="button"
+          onclick="setModo('cobrar')"
+        >
+          Já sei quanto vou cobrar
+        </button>
+
+      </div>
+
+
+      <label id="lblValor" for="valorInput">
+        Quanto você quer receber?
+      </label>
+
+      <div class="input-money">
+
+        <span>R$</span>
+
+        <input
+          id="valorInput"
+          type="number"
+          min="0"
+          step="0.01"
+          inputmode="decimal"
+          placeholder="100,00"
+          oninput="calcular()"
+        >
+
+      </div>
+
+
+      <label for="tipoPagamento">
+        Como o cliente vai pagar?
+      </label>
+
+      <select
+        id="tipoPagamento"
+        onchange="calcular()"
+      >
+        <option value="debito">Débito</option>
+        <option value="creditoVista" selected>Crédito à vista</option>
+        <option value="2">Crédito 2x</option>
+        <option value="3">Crédito 3x</option>
+        <option value="4">Crédito 4x</option>
+        <option value="5">Crédito 5x</option>
+        <option value="6">Crédito 6x</option>
+        <option value="12">Crédito 12x</option>
+      </select>
+
+    </section>
+
+
+    <!-- RESULTADO DA TAXA -->
+
+    <section class="card resultado-card">
+
+      <div class="titulo-linha">
+
+        <h2>Resultado da venda</h2>
+
+        <button
+          class="help"
+          type="button"
+          onclick="mostrarAjuda(
+            'Valor a cobrar é o preço que o cliente paga. Taxa descontada é o valor que a maquininha retira. Valor que fica para você é o dinheiro que sobra.'
+          )"
+        >?</button>
+
+      </div>
+
+      <div id="resultadoContent">
+
+        <div class="vazio">
+
+          <strong>Digite um valor acima.</strong>
+
+          <span>A conta aparece aqui.</span>
+
         </div>
 
-        <label id="lblValor" for="valorInput">Quanto você quer receber no bolso?</label>
-        <input type="number" id="valorInput" step="0.01" placeholder="Ex.: 100.00" oninput="calcular()">
+      </div>
 
-        <label for="tipoPagamento">Forma de pagamento:</label>
-        <select id="tipoPagamento" onchange="calcular()">
-          <option value="debito">Débito</option>
-          <option value="creditoVista" selected>Crédito à Vista</option>
-          <option value="2">Crédito 2x</option>
-          <option value="3">Crédito 3x</option>
-          <option value="4">Crédito 4x</option>
-          <option value="5">Crédito 5x</option>
-          <option value="6">Crédito 6x</option>
-          <option value="12">Crédito 12x</option>
-        </select>
-      </section>
+      <button
+        id="btnCopiar"
+        class="btn-success"
+        type="button"
+        style="display:none"
+        onclick="copiarResumo()"
+      >
+        Copiar resumo para WhatsApp
+      </button>
 
-      <!-- Resultado -->
-      <section class="card result-card">
-        <h3>Resultado</h3>
-        <div id="resultadoContent">
-          <p class="muted">Digite um valor para ver a simulação.</p>
+    </section>
+
+
+    <!-- =====================================================
+         MÓDULO 2 - JUROS PARA QUEM COMPRA
+    ====================================================== -->
+
+    <section class="card juros-card">
+
+      <div class="titulo-linha">
+
+        <div>
+
+          <h2>2. Juros para quem compra</h2>
+
+          <p class="subtitulo">
+            Agora é outra conta: o acréscimo do parcelamento.
+          </p>
+
         </div>
-        <button id="btnCopiar" class="btn-success" style="display:none;" onclick="copiarResumo()">Copiar resumo para WhatsApp</button>
-      </section>
 
-      <!-- Configuração de Taxas -->
-      <details class="card">
-        <summary><b>Configurar minhas taxas (%)</b></summary>
-        <div class="taxas-grid">
-          <div>
-            <label>Débito (%)</label>
-            <input type="number" id="taxaDebito" step="0.01" value="1.99" onchange="salvarTaxas()">
-          </div>
-          <div>
-            <label>Crédito à Vista (%)</label>
-            <input type="number" id="taxaCreditoVista" step="0.01" value="3.19" onchange="salvarTaxas()">
-          </div>
-          <div>
-            <label>Parcelado 2x (%)</label>
-            <input type="number" id="taxa2x" step="0.01" value="4.50" onchange="salvarTaxas()">
-          </div>
-          <div>
-            <label>Parcelado 6x (%)</label>
-            <input type="number" id="taxa6x" step="0.01" value="8.90" onchange="salvarTaxas()">
-          </div>
-          <div>
-            <label>Parcelado 12x (%)</label>
-            <input type="number" id="taxa12x" step="0.01" value="13.50" onchange="salvarTaxas()">
-          </div>
+        <button
+          class="help"
+          type="button"
+          onclick="mostrarAjuda(
+            'Aqui você calcula o valor que será pago pelo cliente quando o parcelamento tiver juros. Esta conta é diferente da taxa cobrada pela maquininha.'
+          )"
+        >?</button>
+
+      </div>
+
+
+      <div class="aviso-info">
+
+        <strong>Atenção:</strong>
+
+        <span>
+          Taxa da maquininha e juros do parcelamento não são a mesma coisa.
+        </span>
+
+      </div>
+
+
+      <label for="jurosValor">
+        Quanto custa o produto à vista?
+      </label>
+
+      <div class="input-money">
+
+        <span>R$</span>
+
+        <input
+          id="jurosValor"
+          type="number"
+          min="0"
+          step="0.01"
+          inputmode="decimal"
+          placeholder="100,00"
+          oninput="calcularJurosCliente()"
+        >
+
+      </div>
+
+
+      <div class="duas-colunas">
+
+        <div>
+
+          <label for="jurosParcelas">
+            Quantas parcelas?
+          </label>
+
+          <select
+            id="jurosParcelas"
+            onchange="calcularJurosCliente()"
+          >
+            <option value="1">1x</option>
+            <option value="2">2x</option>
+            <option value="3">3x</option>
+            <option value="4">4x</option>
+            <option value="5" selected>5x</option>
+            <option value="6">6x</option>
+            <option value="7">7x</option>
+            <option value="8">8x</option>
+            <option value="9">9x</option>
+            <option value="10">10x</option>
+            <option value="11">11x</option>
+            <option value="12">12x</option>
+          </select>
+
         </div>
-      </details>
 
-      <!-- Ajuda e Glossário -->
-      <details class="card">
-        <summary><b>Como usar & Glossário simples</b></summary>
-        <div class="help-section">
-          <h4>Como usar:</h4>
-          <ol>
-            <li><b>Se você quer garantir um valor limpo:</b> Escolha "Quero receber R$ X no bolso" e coloque o valor do seu produto. O sistema mostra quanto cobrar para pagar a taxa sem perder dinheiro.</li>
-            <li><b>Se o cliente quer saber o desconto:</b> Escolha "Vou cobrar R$ X do cliente". O sistema mostra quanto sobra para você após a máquina descontar a taxa.</li>
-            <li><b>Ajuste suas taxas:</b> Clique em "Configurar minhas taxas" e coloque as porcentagens da sua maquininha (elas ficam salvas para os próximos acessos).</li>
-          </ol>
 
-          <hr>
+        <div>
 
-          <h4>Glossário (Sem palavras difíceis):</h4>
-          <ul>
-            <li><b>Valor no bolso (Líquido):</b> O dinheiro que realmente vai para a sua conta depois que a empresa do cartão tira a parte dela.</li>
-            <li><b>Valor a cobrar (Bruto):</b> O preço final digitado na maquininha para o cliente pagar.</li>
-            <li><b>Taxa da maquininha:</b> A porcentagem que a empresa do cartão cobra por cada venda realizada.</li>
-            <li><b>Repasse de taxa:</b> Quando você embuti a taxa no preço para o cliente pagar pelo custo da conveniência do cartão.</li>
-          </ul>
+          <label for="jurosMensal">
+            Juros ao mês (%)
+          </label>
+
+          <input
+            id="jurosMensal"
+            type="number"
+            min="0"
+            step="0.01"
+            value="2"
+            inputmode="decimal"
+            oninput="calcularJurosCliente()"
+          >
+
         </div>
-      </details>
-    </main>
+
+      </div>
+
+
+      <div id="resultadoJuros">
+
+        <div class="vazio">
+
+          <strong>Digite o preço do produto.</strong>
+
+          <span>
+            O valor das parcelas aparecerá aqui.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="btnCopiarJuros"
+        class="btn-success"
+        type="button"
+        style="display:none"
+        onclick="copiarResumoJuros()"
+      >
+        Copiar juros para WhatsApp
+      </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         MÓDULO 3 - COMPARADOR
+    ====================================================== -->
+
+    <section class="card">
+
+      <div class="titulo-linha">
+
+        <div>
+
+          <h2>3. Comparar formas de pagamento</h2>
+
+          <p class="subtitulo">
+            Veja a diferença entre pagar à vista e parcelar.
+          </p>
+
+        </div>
+
+        <button
+          class="help"
+          type="button"
+          onclick="mostrarAjuda(
+            'O comparador mostra como o mesmo produto pode ficar diferente quando o cliente escolhe pagar à vista, parcelado sem juros ou parcelado com juros.'
+          )"
+        >?</button>
+
+      </div>
+
+
+      <label for="compararValor">
+        Preço do produto
+      </label>
+
+      <div class="input-money">
+
+        <span>R$</span>
+
+        <input
+          id="compararValor"
+          type="number"
+          min="0"
+          step="0.01"
+          inputmode="decimal"
+          placeholder="100,00"
+          oninput="calcularComparador()"
+        >
+
+      </div>
+
+
+      <div class="duas-colunas">
+
+        <div>
+
+          <label for="compararParcelas">
+            Parcelar em
+          </label>
+
+          <select
+            id="compararParcelas"
+            onchange="calcularComparador()"
+          >
+            <option value="2">2x</option>
+            <option value="3" selected>3x</option>
+            <option value="4">4x</option>
+            <option value="5">5x</option>
+            <option value="6">6x</option>
+            <option value="12">12x</option>
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label for="compararJuros">
+            Juros ao mês
+          </label>
+
+          <input
+            id="compararJuros"
+            type="number"
+            min="0"
+            step="0.01"
+            value="2"
+            inputmode="decimal"
+            oninput="calcularComparador()"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div id="resultadoComparador">
+
+        <div class="vazio">
+
+          <strong>Digite um preço.</strong>
+
+          <span>
+            A comparação aparecerá aqui.
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MÓDULO 4 - MINHAS TAXAS
+    ====================================================== -->
+
+    <details class="card">
+
+      <summary>
+        <b>Minhas taxas (?)</b>
+      </summary>
+
+      <p class="muted">
+        Cadastre as taxas informadas pela sua própria empresa de
+        maquininha. As taxas iniciais são apenas exemplos.
+      </p>
+
+
+      <div class="taxas-grid">
+
+        <div>
+          <label for="taxaDebito">Débito (%)</label>
+          <input id="taxaDebito" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxaCreditoVista">Crédito à vista (%)</label>
+          <input id="taxaCreditoVista" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxa2x">Crédito 2x (%)</label>
+          <input id="taxa2x" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxa3x">Crédito 3x (%)</label>
+          <input id="taxa3x" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxa4x">Crédito 4x (%)</label>
+          <input id="taxa4x" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxa5x">Crédito 5x (%)</label>
+          <input id="taxa5x" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxa6x">Crédito 6x (%)</label>
+          <input id="taxa6x" type="number" min="0" step="0.01">
+        </div>
+
+        <div>
+          <label for="taxa12x">Crédito 12x (%)</label>
+          <input id="taxa12x" type="number" min="0" step="0.01">
+        </div>
+
+      </div>
+
+
+      <button
+        class="btn-secondary"
+        type="button"
+        onclick="restaurarTaxas()"
+      >
+        Voltar para os exemplos
+      </button>
+
+    </details>
+
+
+    <!-- =====================================================
+         MÓDULO 5 - COMO USAR
+    ====================================================== -->
+
+    <details class="card">
+
+      <summary>
+        <b>Como usar (?)</b>
+      </summary>
+
+      <div class="help-section">
+
+        <h3>Quer receber R$ 100?</h3>
+
+        <p>
+          Escolha <strong>“Quero receber um valor certo”</strong>.
+          Digite R$ 100 e escolha a forma de pagamento.
+          O sistema calcula quanto cobrar para que a taxa não
+          diminua os R$ 100 desejados.
+        </p>
+
+
+        <h3>Vai cobrar R$ 100?</h3>
+
+        <p>
+          Escolha <strong>“Já sei quanto vou cobrar”</strong>.
+          O sistema mostra quanto a maquininha desconta e quanto
+          sobra para você.
+        </p>
+
+
+        <h3>Quer cobrar juros do cliente?</h3>
+
+        <p>
+          Use <strong>“Juros para quem compra”</strong>.
+          Digite o preço do produto, a quantidade de parcelas e
+          a taxa mensal.
+        </p>
+
+
+        <h3>Importante</h3>
+
+        <p>
+          A taxa da maquininha pode mudar conforme a empresa,
+          plano, forma de pagamento, parcelamento e prazo de
+          recebimento. Cadastre a taxa informada pela sua própria
+          empresa.
+        </p>
+
+      </div>
+
+    </details>
+
+
+    <!-- =====================================================
+         MÓDULO 6 - GLOSSÁRIO
+    ====================================================== -->
+
+    <details class="card">
+
+      <summary>
+        <b>Glossário sem palavras difíceis (?)</b>
+      </summary>
+
+      <div class="glossario">
+
+        <p>
+          <b>Taxa:</b>
+          porcentagem cobrada pela empresa da maquininha.
+        </p>
+
+        <p>
+          <b>Valor a cobrar:</b>
+          o valor que o cliente paga.
+        </p>
+
+        <p>
+          <b>Valor no bolso:</b>
+          o que sobra depois da taxa.
+        </p>
+
+        <p>
+          <b>Bruto:</b>
+          valor antes do desconto.
+        </p>
+
+        <p>
+          <b>Líquido:</b>
+          valor depois do desconto.
+        </p>
+
+        <p>
+          <b>Parcelado:</b>
+          compra dividida em parcelas.
+        </p>
+
+        <p>
+          <b>Juros:</b>
+          valor cobrado a mais pelo parcelamento.
+        </p>
+
+        <p>
+          <b>Juros ao mês:</b>
+          porcentagem usada para calcular o acréscimo de cada mês.
+        </p>
+
+        <p>
+          <b>Repasse da taxa:</b>
+          cálculo do preço levando em conta o custo da operação,
+          respeitando as regras aplicáveis.
+        </p>
+
+      </div>
+
+    </details>
+
+
+    <!-- =====================================================
+         EDUCAÇÃO
+    ====================================================== -->
+
+    <section class="card escola-cartao">
+
+      <div class="titulo-linha">
+
+        <h2>Aprenda antes de cobrar</h2>
+
+        <button
+          class="help"
+          type="button"
+          onclick="mostrarAjuda(
+            'A ideia deste projeto não é apenas entregar um número. É ensinar o que está acontecendo com o dinheiro.'
+          )"
+        >?</button>
+
+      </div>
+
+      <p>
+        <strong>Taxa da maquininha</strong> é uma coisa.
+        <strong>Juros do parcelamento</strong> é outra.
+      </p>
+
+      <p>
+        Antes de vender, faça a conta.
+        Assim você sabe quanto o cliente paga e quanto realmente
+        fica para você.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    Projeto educativo gratuito • Taxas de Maquininhas
+  </footer>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL DE AJUDA
+====================================================== -->
+
+<div
+  id="modalAjuda"
+  class="modal"
+  hidden
+>
+
+  <div class="modal-box">
+
+    <button
+      class="fechar"
+      type="button"
+      onclick="fecharAjuda()"
+    >
+      ×
+    </button>
+
+    <h2>Explicação</h2>
+
+    <p id="textoAjuda"></p>
+
   </div>
-  <script src="app.js"></script>
+
+</div>
+
+
+<script src="app.js"></script>
+
 </body>
 </html>
