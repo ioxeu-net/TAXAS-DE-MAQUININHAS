@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Calculadora de Taxas de Maquininha</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Calculadora de Maquininha</h1>
+      <p>Descubra quanto cobrar e não perca dinheiro nas taxas do cartão.</p>
+    </header>
+
+    <main>
+      <!-- Modo de Cálculo -->
+      <section class="card">
+        <label>O que você deseja?</label>
+        <div class="toggle-group">
+          <button id="btnModoReceber" class="active" onclick="setModo('receber')">Quero receber R$ X no bolso</button>
+          <button id="btnModoCobrar" onclick="setModo('cobrar')">Vou cobrar R$ X do cliente</button>
+        </div>
+
+        <label id="lblValor" for="valorInput">Quanto você quer receber no bolso?</label>
+        <input type="number" id="valorInput" step="0.01" placeholder="Ex.: 100.00" oninput="calcular()">
+
+        <label for="tipoPagamento">Forma de pagamento:</label>
+        <select id="tipoPagamento" onchange="calcular()">
+          <option value="debito">Débito</option>
+          <option value="creditoVista" selected>Crédito à Vista</option>
+          <option value="2">Crédito 2x</option>
+          <option value="3">Crédito 3x</option>
+          <option value="4">Crédito 4x</option>
+          <option value="5">Crédito 5x</option>
+          <option value="6">Crédito 6x</option>
+          <option value="12">Crédito 12x</option>
+        </select>
+      </section>
+
+      <!-- Resultado -->
+      <section class="card result-card">
+        <h3>Resultado</h3>
+        <div id="resultadoContent">
+          <p class="muted">Digite um valor para ver a simulação.</p>
+        </div>
+        <button id="btnCopiar" class="btn-success" style="display:none;" onclick="copiarResumo()">Copiar resumo para WhatsApp</button>
+      </section>
+
+      <!-- Configuração de Taxas -->
+      <details class="card">
+        <summary><b>Configurar minhas taxas (%)</b></summary>
+        <div class="taxas-grid">
+          <div>
+            <label>Débito (%)</label>
+            <input type="number" id="taxaDebito" step="0.01" value="1.99" onchange="salvarTaxas()">
+          </div>
+          <div>
+            <label>Crédito à Vista (%)</label>
+            <input type="number" id="taxaCreditoVista" step="0.01" value="3.19" onchange="salvarTaxas()">
+          </div>
+          <div>
+            <label>Parcelado 2x (%)</label>
+            <input type="number" id="taxa2x" step="0.01" value="4.50" onchange="salvarTaxas()">
+          </div>
+          <div>
+            <label>Parcelado 6x (%)</label>
+            <input type="number" id="taxa6x" step="0.01" value="8.90" onchange="salvarTaxas()">
+          </div>
+          <div>
+            <label>Parcelado 12x (%)</label>
+            <input type="number" id="taxa12x" step="0.01" value="13.50" onchange="salvarTaxas()">
+          </div>
+        </div>
+      </details>
+
+      <!-- Ajuda e Glossário -->
+      <details class="card">
+        <summary><b>Como usar & Glossário simples</b></summary>
+        <div class="help-section">
+          <h4>Como usar:</h4>
+          <ol>
+            <li><b>Se você quer garantir um valor limpo:</b> Escolha "Quero receber R$ X no bolso" e coloque o valor do seu produto. O sistema mostra quanto cobrar para pagar a taxa sem perder dinheiro.</li>
+            <li><b>Se o cliente quer saber o desconto:</b> Escolha "Vou cobrar R$ X do cliente". O sistema mostra quanto sobra para você após a máquina descontar a taxa.</li>
+            <li><b>Ajuste suas taxas:</b> Clique em "Configurar minhas taxas" e coloque as porcentagens da sua maquininha (elas ficam salvas para os próximos acessos).</li>
+          </ol>
+
+          <hr>
+
+          <h4>Glossário (Sem palavras difíceis):</h4>
+          <ul>
+            <li><b>Valor no bolso (Líquido):</b> O dinheiro que realmente vai para a sua conta depois que a empresa do cartão tira a parte dela.</li>
+            <li><b>Valor a cobrar (Bruto):</b> O preço final digitado na maquininha para o cliente pagar.</li>
+            <li><b>Taxa da maquininha:</b> A porcentagem que a empresa do cartão cobra por cada venda realizada.</li>
+            <li><b>Repasse de taxa:</b> Quando você embuti a taxa no preço para o cliente pagar pelo custo da conveniência do cartão.</li>
+          </ul>
+        </div>
+      </details>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

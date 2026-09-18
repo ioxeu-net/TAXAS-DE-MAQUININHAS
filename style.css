@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f5ef;
+  color: #26352d;
+  padding: 16px;
+}
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+header h1 {
+  color: #806322;
+  margin-bottom: 4px;
+}
+header p {
+  color: #687568;
+  font-size: 14px;
+  margin-top: 0;
+}
+.card {
+  background: #fff;
+  border: 1px solid #eadfe5;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+label {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 12px;
+}
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd7ca;
+  margin-top: 6px;
+  font-size: 15px;
+}
+.toggle-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.toggle-group button {
+  background: #eee;
+  border: 0;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+.toggle-group button.active {
+  background: #d5e8d1;
+  border: 2px solid #806322;
+  color: #26352d;
+}
+.result-card {
+  background: #fcfdfa;
+  border-left: 5px solid #806322;
+}
+.highlight {
+  font-size: 24px;
+  font-weight: bold;
+  color: #806322;
+  margin: 6px 0;
+}
+.btn-success {
+  background: #25d366;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.muted {
+  color: #777;
+}
+.taxas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+details summary {
+  cursor: pointer;
+  color: #26352d;
+  font-size: 15px;
+}
+
+.help-section {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.help-section h4 {
+  margin: 12px 0 6px 0;
+  color: #806322;
+}
+
+.help-section ol, .help-section ul {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+
+.help-section li {
+  margin-bottom: 8px;
+}
