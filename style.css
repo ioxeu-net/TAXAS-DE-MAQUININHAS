@@ -1,111 +1,605 @@
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --azul: #0b3b5c;
+  --azul-claro: #12608f;
+  --verde: #16845b;
+  --verde-claro: #e8f7ef;
+  --amarelo: #f5c542;
+  --fundo: #f3f6f8;
+  --branco: #ffffff;
+  --texto: #1d2933;
+  --muted: #66737d;
+  --borda: #d9e1e6;
+  --perigo-fundo: #fff8df;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f3f5ef;
-  color: #26352d;
-  padding: 16px;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
 }
+
 .container {
-  max-width: 500px;
+  width: min(100%, 900px);
   margin: 0 auto;
+  padding: 20px;
 }
-header h1 {
-  color: #806322;
-  margin-bottom: 4px;
-}
-header p {
-  color: #687568;
-  font-size: 14px;
-  margin-top: 0;
-}
-.card {
-  background: #fff;
-  border: 1px solid #eadfe5;
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-label {
-  display: block;
-  font-weight: 700;
-  font-size: 14px;
-  margin-top: 12px;
-}
-input, select, button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #cbd7ca;
-  margin-top: 6px;
-  font-size: 15px;
-}
-.toggle-group {
+
+
+/* =====================================================
+   TOPO
+===================================================== */
+
+.topo {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-.toggle-group button {
-  background: #eee;
-  border: 0;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-}
-.toggle-group button.active {
-  background: #d5e8d1;
-  border: 2px solid #806322;
-  color: #26352d;
-}
-.result-card {
-  background: #fcfdfa;
-  border-left: 5px solid #806322;
-}
-.highlight {
-  font-size: 24px;
-  font-weight: bold;
-  color: #806322;
-  margin: 6px 0;
-}
-.btn-success {
-  background: #25d366;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--azul);
   color: white;
-  border: none;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icone {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  background: var(--amarelo);
+  color: var(--azul);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.topo h1 {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 32px);
+}
+
+.topo p {
+  margin: 3px 0 0;
+  opacity: .88;
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.card {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(20, 40, 50, .04);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.card h3 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.titulo-linha {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.subtitulo {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.explicacao {
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+
+/* =====================================================
+   BOTÃO ?
+===================================================== */
+
+.help {
+  border: 0;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: #e9f0f5;
+  color: var(--azul);
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
 }
-.muted {
-  color: #777;
+
+.topo .help {
+  background: rgba(255,255,255,.18);
+  color: white;
 }
-.taxas-grid {
+
+.help:hover {
+  transform: scale(1.05);
+}
+
+
+/* =====================================================
+   BOTÕES DE MODO
+===================================================== */
+
+.toggle-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  margin: 16px 0;
 }
+
+.toggle-group button {
+  border: 1px solid var(--borda);
+  background: #f8fafb;
+  color: var(--texto);
+  border-radius: 10px;
+  padding: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.toggle-group button.active {
+  background: var(--azul);
+  color: white;
+  border-color: var(--azul);
+}
+
+
+/* =====================================================
+   CAMPOS
+===================================================== */
+
+label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid #cbd6dd;
+  background: white;
+  border-radius: 10px;
+  min-height: 46px;
+  padding: 10px 12px;
+  font-size: 16px;
+  color: var(--texto);
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--azul-claro);
+  box-shadow: 0 0 0 3px rgba(18,96,143,.10);
+}
+
+.input-money {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-money span {
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  background: #edf2f5;
+  border: 1px solid #cbd6dd;
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  font-weight: bold;
+}
+
+.input-money input {
+  border-radius: 0 10px 10px 0;
+}
+
+
+/* =====================================================
+   DUAS COLUNAS
+===================================================== */
+
+.duas-colunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+
+/* =====================================================
+   RESULTADO
+===================================================== */
+
+.resultado-card {
+  border-top: 5px solid var(--verde);
+}
+
+.resultado-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.resultado-item {
+  background: #f7f9fa;
+  border: 1px solid #e3e9ed;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.resultado-item span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.resultado-item strong {
+  display: block;
+  margin-top: 3px;
+}
+
+.destaque {
+  margin-top: 12px;
+  padding: 17px;
+  border-radius: 12px;
+  background: var(--verde-claro);
+  color: #105b40;
+}
+
+.destaque span {
+  display: block;
+  font-size: 14px;
+}
+
+.destaque strong {
+  display: block;
+  font-size: 26px;
+  margin-top: 2px;
+}
+
+
+/* =====================================================
+   VAZIO
+===================================================== */
+
+.vazio {
+  margin-top: 15px;
+  border: 1px dashed #cbd6dd;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  background: #fafcfd;
+}
+
+.vazio strong,
+.vazio span {
+  display: block;
+}
+
+.vazio span {
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+
+/* =====================================================
+   BOTÕES
+===================================================== */
+
+.btn-success,
+.btn-secondary {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.btn-success {
+  width: 100%;
+  background: var(--verde);
+  color: white;
+}
+
+.btn-secondary {
+  background: #edf2f5;
+  color: var(--azul);
+}
+
+
+/* =====================================================
+   JUROS
+===================================================== */
+
+.juros-card {
+  border-top: 5px solid var(--amarelo);
+}
+
+.aviso-info {
+  display: flex;
+  gap: 7px;
+  margin-top: 15px;
+  padding: 13px;
+  border-radius: 10px;
+  background: var(--perigo-fundo);
+  border: 1px solid #f0d875;
+}
+
+.resultado-juros {
+  margin-top: 18px;
+}
+
+.juros-principal {
+  background: var(--azul);
+  color: white;
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.juros-principal span {
+  display: block;
+  opacity: .85;
+  font-size: 14px;
+}
+
+.juros-principal strong {
+  display: block;
+  font-size: 29px;
+  margin-top: 3px;
+}
+
+.juros-detalhes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.juros-detalhe {
+  background: #f7f9fa;
+  border: 1px solid #e0e6ea;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.juros-detalhe span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.juros-detalhe strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 18px;
+}
+
+
+/* =====================================================
+   COMPARADOR
+===================================================== */
+
+.comparacao {
+  margin-top: 16px;
+  border: 1px solid #dfe6ea;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.comparacao-linha {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid #e2e7ea;
+}
+
+.comparacao-linha:last-child {
+  border-bottom: 0;
+}
+
+.comparacao-linha > div {
+  padding: 12px;
+}
+
+.comparacao-cabecalho {
+  background: var(--azul);
+  color: white;
+  font-weight: bold;
+}
+
+.comparacao-linha:not(.comparacao-cabecalho):nth-child(even) {
+  background: #f8fafb;
+}
+
+.comparacao-observacao {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+
+/* =====================================================
+   DETAILS
+===================================================== */
+
 details summary {
   cursor: pointer;
-  color: #26352d;
-  font-size: 15px;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::after {
+  content: "＋";
+  float: right;
+}
+
+details[open] summary::after {
+  content: "−";
 }
 
 .help-section {
-  margin-top: 14px;
-  font-size: 14px;
-  line-height: 1.6;
+  margin-top: 15px;
 }
 
-.help-section h4 {
-  margin: 12px 0 6px 0;
-  color: #806322;
+.muted {
+  color: var(--muted);
 }
 
-.help-section ol, .help-section ul {
-  padding-left: 20px;
-  margin: 6px 0;
+.taxas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-.help-section li {
-  margin-bottom: 8px;
+
+/* =====================================================
+   GLOSSÁRIO
+===================================================== */
+
+.glossario p {
+  padding: 9px 0;
+  margin: 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+
+/* =====================================================
+   ESCOLA DO CARTÃO
+===================================================== */
+
+.escola-cartao {
+  background: #f8fbfd;
+  border-left: 5px solid var(--azul-claro);
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-box {
+  width: min(100%, 500px);
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-box h2 {
+  margin-top: 0;
+}
+
+.fechar {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+  color: #65727b;
+}
+
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 20px 0 10px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+
+  .container {
+    padding: 10px;
+  }
+
+  .topo {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .icone {
+    width: 48px;
+    height: 48px;
+    font-size: 26px;
+  }
+
+  .toggle-group {
+    grid-template-columns: 1fr;
+  }
+
+  .duas-colunas,
+  .resultado-grid,
+  .taxas-grid,
+  .juros-detalhes {
+    grid-template-columns: 1fr;
+  }
+
+  .comparacao {
+    overflow-x: auto;
+  }
+
+  .comparacao-linha {
+    min-width: 560px;
+  }
+
 }
